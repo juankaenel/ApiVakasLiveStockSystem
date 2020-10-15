@@ -3,27 +3,48 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .models import Alimentaciones
-from .serialize import AlimentacionesSerializer
+from .serialize import AlimentacionSerializer
 
-#esta clase me permite realizar el crud
-# class AlimentacionesViewSet(viewsets.ModelViewSet):
-#     queryset = Alimentaciones.objects.all()
-#     serializer_class = AlimentacionesSerializer
 
 @api_view(['GET'])
 def apiOverView(request):
     api_urls = {
-        'index' : '/alimentaciones',
-        'store' : '/alimentaciones', #create
-        'show' : '/alimentaciones/<str:pk>',
-        'update': '/alimentaciones/<str:pk>',
-        'destroy': '/alimentaciones/<str:pk>',
+        'index' : '/alimentaciones', #Get
+        'store' : '/alimentaciones', #Post
+        'show' : '/alimentaciones/<str:pk>', #Get
+        'update': '/alimentaciones/<str:pk>', #Put,
+        'destroy': '/alimentaciones/<str:pk>', #Delete
     }
     return Response(api_urls)
 
+# END POINTS
+@api_view(['GET','POST'])
+def alimentacion_is(request): #is -> index, store
+   if request.method == 'GET':
+       alimentacion = Alimentaciones.objects.all()
+       serializer = AlimentacionSerializer(alimentacion,many=True)
 
-@api_view(['GET'])
-def index(request):
-    alimentaciones = Alimentaciones.objects.all()
-    serializer = AlimentacionesSerializer(alimentaciones,many=True)
-    return Response(serializer.data)
+       return Response(serializer.data)
+   elif request.method == 'POST':
+       serializer = AlimentacionSerializer(data=request.data)
+       if serializer.is_valid():
+           serializer.save()
+
+       return Response(serializer.data)
+
+@api_view(['GET','DELETE','PUT'])
+def alimentacion_sud(request,pk): #sud -> show, update, delete
+   if request.method == 'GET':
+       alimentacion = Alimentaciones.objects.get(id=pk)
+       serializer = AlimentacionSerializer(alimentacion, many=False)
+       return Response(serializer.data)
+   elif request.method == 'PUT':
+       alimentacion = Alimentaciones.objects.get(id=pk)
+       serializer = AlimentacionSerializer(instance=alimentacion,data=request.data)
+       if serializer.is_valid():
+           serializer.save()
+       return Response(serializer.data)
+   elif request.method == 'DELETE':
+       alimentacion = Alimentaciones.objects.get(id=pk)
+       alimentacion.delete()
+       return Response('Alimentación borrado con éxito!')
