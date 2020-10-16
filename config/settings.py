@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'authentication.User'
+AUTH_USER_MODEL = 'users.User'
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #rest
     'rest_framework',
-    'authentication'
     #apps
     'apps.alimentaciones',
     'apps.alimentos',
+    'apps.users',
     # CORS
     'corsheaders',
 ]
@@ -96,6 +96,9 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY':'error' #para que cuando se presenten errores, la respuesta json sea igual a ->  error:{....{
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
