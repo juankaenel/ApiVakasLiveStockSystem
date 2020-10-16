@@ -1,44 +1,26 @@
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import (BaseUserManager,PermissionsMixin)
 from django.db import models
+from django.contrib.auth.models import User
 
-class UserManager(BaseUserManager):
-    def create_user(self,username,email,password=None):
-        if username is None:
-            raise TypeError('El usuario debería tener un nombre de usuario')
-        if email is None:
-            raise TypeError('El usuario debería tener un email')
-
-        user = self.model(username=username, email=self.normalize_email(email))
-        user.set_password(password)
-        user.save()
-
-    def create_superuser(self,username, email, password=None):
-        if password == None:
-            raise TypeError('El super usario debe llevar contraseña')
-
-        user = self.create_user(username,email,password)
-        user.is_admin = True
-        user.is_staff = True
-        user.save()
-        return user
-
-class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(verbose_name='Nombre de usuario',max_length=255,unique=True,db_index=True)
+class PerfilUsuario(models.Model):
+    """Modelo de perfil de usuarios.
+       Modelo proxy, este extiende de la base de dato con otra informacion
+       """
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    #username = models.CharField(verbose_name='Nombre de usuario',max_length=255,unique=True,db_index=True)
+    nombre = models.CharField(verbose_name='Nombre',max_length=255,db_index=True)
     email = models.EmailField(verbose_name='Email',max_length=255,unique=True,db_index=True)
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    dni = models.IntegerField(verbose_name='DNI',blank=True,null=True,unique=True)
+    tipo = models.IntegerField(verbose_name='Tipo', blank=True,null=True)
+    telefono = models.CharField(verbose_name='Teléfono',max_length=50,null=True,blank=True)
+    #last_login = models.CharField(verbose_name='Último inicio',max_length=255)
+    #is_active = models.BooleanField(default=True)
+    #is_admin = models.BooleanField(default=False)
+    #is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
     def __str__(self):
-        return self.email
-
-    def tokens(self):
-        return ''
+        """Return an username"""
+        return self.user.username
 
 
