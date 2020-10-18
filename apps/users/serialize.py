@@ -1,11 +1,11 @@
 from rest_framework import serializers
-from .models import User
+from .models import Usuario
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=60,min_length=6,write_only=True)
 
     class Meta:
-        model = User
+        model = Usuario
         fields = ['email','username','password']
 
     def validate(self, attrs):
@@ -18,4 +18,4 @@ class RegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        return Usuario.objects.create_user(**validated_data)
