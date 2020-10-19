@@ -26,7 +26,8 @@ class UsuarioManager(BaseUserManager):
             email=email,
             username=username,
             nombres=nombres,
-            apellidos=apellidos
+            apellidos=apellidos,
+            password=password
         )
         usuario.usuario_administrador = True
         usuario.save()
@@ -34,9 +35,6 @@ class UsuarioManager(BaseUserManager):
 
 
 class Usuario(AbstractBaseUser):
-    """Modelo de perfil de usuarios.
-       Modelo proxy, este extiende de la base de dato con otra informacion
-       """
     # user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='user')
     username = models.CharField('Nombre de usuario', max_length=255, unique=True, db_index=True)
     nombres = models.CharField('Nombres', max_length=255, db_index=True)
@@ -45,12 +43,9 @@ class Usuario(AbstractBaseUser):
     dni = models.IntegerField('DNI', blank=True, null=True, unique=True)
     tipo = models.IntegerField('Tipo', blank=True, null=True)
     telefono = models.CharField('Teléfono', max_length=50, null=True, blank=True)
-    # last_login = models.CharField(verbose_name='Último inicio',max_length=255)
     usuario_activo = models.BooleanField(default=True)
     usuario_administrador = models.BooleanField(default=False)
-    # is_staff = models.BooleanField(default=False)
-    # created_at = models.DateTimeField(auto_now_add=True)
-    # updated_at = models.DateTimeField(auto_now=True)
+
     objects = UsuarioManager()
 
     USERNAME_FIELD = 'username'
