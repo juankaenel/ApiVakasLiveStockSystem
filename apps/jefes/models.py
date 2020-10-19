@@ -12,8 +12,8 @@ class Jefes(Timestamps,models.Model):
     marca = models.CharField(max_length=45)
     user = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # relación muchos a uno con Usuario
 
-    def __str__(self):
-        return self.user
+    #def __str__(self):
+    #    return self.user
 
     class Meta:
         verbose_name = 'Jefe'
