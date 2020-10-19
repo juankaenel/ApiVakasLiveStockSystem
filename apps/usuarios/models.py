@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
-
+from ..utils.models import Timestamps
 
 class UsuarioManager(BaseUserManager):
     def create_user(self, username, nombres, apellidos, email, password=None):
@@ -34,7 +34,7 @@ class UsuarioManager(BaseUserManager):
         return usuario
 
 
-class Usuario(AbstractBaseUser):
+class Usuario(Timestamps,AbstractBaseUser):
     # user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='user')
     username = models.CharField('Nombre de usuario', max_length=255, unique=True, db_index=True)
     nombres = models.CharField('Nombres', max_length=255, db_index=True)
@@ -69,7 +69,9 @@ class Usuario(AbstractBaseUser):
     def is_staff(self):
         """
         Verifica y valida si un usuario es admin o no
-        :param self:
-        :return:
         """
         return self.usuario_administrador
+
+    class Meta:
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'

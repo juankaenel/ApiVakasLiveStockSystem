@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-AUTH_USER_MODEL = 'users.Usuario' #como modelo de usuario de autenticación usame el Usuario
+AUTH_USER_MODEL = 'usuarios.Usuario' #como modelo de usuario de autenticación usame el Usuario
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     #apps
     'apps.alimentaciones',
     'apps.alimentos',
-    'apps.users',
+    'apps.usuarios',
     'apps.jefes',
+    'apps.empleados',
+    'apps.utils',
     # CORS
     'corsheaders',
 ]

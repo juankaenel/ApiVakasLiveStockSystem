@@ -1,8 +1,8 @@
 from django.db import models
-from apps.users.models import Usuario
+from apps.usuarios.models import Usuario
+from ..utils.models import Timestamps
 
-
-class Jefes(models.Model):
+class Jefes(Timestamps,models.Model):
     """
     Modelo Jefes
     """
@@ -10,7 +10,11 @@ class Jefes(models.Model):
     renspa = models.CharField(max_length=45)
     sena = models.CharField(max_length=45)
     marca = models.CharField(max_length=45)
-    user = models.ForeignKey(Usuario, on_delete=models.CASCADE) #relación muchos a uno con Usuario
+    user = models.ForeignKey(Usuario, on_delete=models.CASCADE)  # relación muchos a uno con Usuario
 
-    # def __str__(self):
-    #     return self.user
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        verbose_name = 'Jefe'
+        verbose_name_plural = 'Jefes'
