@@ -75,3 +75,5 @@ class Usuario(Timestamps,AbstractBaseUser):
     class Meta:
         verbose_name = 'Usuario'
         verbose_name_plural = 'Usuarios'
+        db_table = 'USUARIO'  # nombre de la tabla
+        ordering = ['id']  # ordena por id de forma ascendente

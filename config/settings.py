@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'apps.empleados',
     'apps.precipitaciones',
     'apps.utils',
+    'apps.vacunas',
     # CORS
     'corsheaders',
 ]

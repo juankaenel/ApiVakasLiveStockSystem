@@ -15,3 +15,5 @@ class Alimentos(Timestamps,models.Model):
     class Meta:
         verbose_name = 'Alimento'
         verbose_name_plural = 'Alimentos'
+        db_table = 'ALIMENTO'  # nombre de la tabla
+        ordering = ['id']

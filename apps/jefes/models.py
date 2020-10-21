@@ -18,3 +18,5 @@ class Jefes(Timestamps,models.Model):
     class Meta:
         verbose_name = 'Jefe'
         verbose_name_plural = 'Jefes'
+        db_table = 'JEFE'
+        ordering = ['id']

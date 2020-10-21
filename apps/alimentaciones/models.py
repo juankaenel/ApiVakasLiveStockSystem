@@ -22,3 +22,5 @@ class Alimentaciones(Timestamps,models.Model):
     class Meta:
         verbose_name = 'Alimentacion'
         verbose_name_plural = 'Alimentaciones'
+        db_table = 'ALIMENTACION'  # nombre de la tabla
+        ordering = ['id']

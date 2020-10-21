@@ -18,6 +18,8 @@ class Precipitaciones(Timestamps, models.Model):
     class Meta:
         verbose_name = 'Precipitación'
         verbose_name_plural = 'Precipitaciones'
+        db_table = 'PRECIPITACION'  # nombre de la tabla
+        ordering = ['id']
 
     def __str__(self):
         return f'Cantidad de milímetros registrados: {self.milimetraje}'
