@@ -13,8 +13,8 @@ class Vacunas(Timestamps,models.Model):
         return self.nombre
 
     class Meta:
-        verbose_name = 'Vacunas'
-        verbose_name_plural = 'Vacunaciones'
+        verbose_name = 'Vacuna'
+        verbose_name_plural = 'Vacunas'
         db_table = 'VACUNA'  # nombre de la tabla
         ordering = ['id']  # ordena por id de forma ascendente
 
