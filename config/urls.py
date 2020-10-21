@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/',include('apps.precipitaciones.urls')),
     path('api/',include('apps.vacunas.urls')),
     path('api/',include('apps.vacunaciones.urls')),
+    path('api/',include('apps.bovinos.urls')),
 ]
 

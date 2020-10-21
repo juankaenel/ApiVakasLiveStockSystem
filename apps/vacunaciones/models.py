@@ -21,5 +21,5 @@ class Vacunaciones(Timestamps,models.Model):
     class Meta:
         verbose_name = 'Vacunación'
         verbose_name_plural = 'Vacunaciones'
-        db_table = 'VACUNACIONES'  # nombre de la tabla
+        db_table = 'VACUNACION'  # nombre de la tabla
         ordering = ['id']  # ordena por id de forma ascendente
