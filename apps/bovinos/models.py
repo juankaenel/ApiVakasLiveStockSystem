@@ -1,5 +1,6 @@
 from django.db import models
 
+from ..categorias.models import Categorias
 from ..jefes.models import Jefes
 from ..utils.models import Timestamps
 
@@ -13,10 +14,12 @@ class Bovinos(Timestamps,models.Model):
     ultimo_peso = models.FloatField('Último peso')
     observacion = models.TextField(max_length=255)
     sexo = models.CharField(max_length=45)
-    jefe = models.ForeignKey(Jefes, on_delete=models.CASCADE)
     vendido = models.BooleanField()
-    #categoria = models.ForeignKey(Categorias, on_delete=models.CASCADE)
+    jefe = models.ForeignKey(Jefes, on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categorias, on_delete=models.CASCADE)
     #razas = models.ForeignKey(Razas, on_delete=models.CASCADE)
+
+    #ventas
     #foto
 
     def __str__(self):
