@@ -13,7 +13,7 @@ urlpatterns = [
     path('api/',include('apps.vacunaciones.urls')),
     path('api/',include('apps.bovinos.urls')),
     path('api/',include('apps.compras.urls')),
-    #path('api/',include('apps.ventas.urls')),
+    path('api/',include('apps.ventas.urls')),
     path('api/',include('apps.categorias.urls')),
     path('api/',include('apps.razas.urls')),
 ]

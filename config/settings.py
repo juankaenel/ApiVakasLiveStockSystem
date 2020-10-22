@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'apps.vacunaciones',
     'apps.bovinos',
     'apps.compras',
+    'apps.ventas',
     'apps.categorias',
     'apps.razas',
     # CORS
