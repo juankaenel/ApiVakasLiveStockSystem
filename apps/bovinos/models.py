@@ -2,6 +2,7 @@ from django.db import models
 
 from ..categorias.models import Categorias
 from ..jefes.models import Jefes
+from ..razas.models import Razas
 from ..utils.models import Timestamps
 
 class Bovinos(Timestamps,models.Model):
@@ -17,9 +18,7 @@ class Bovinos(Timestamps,models.Model):
     vendido = models.BooleanField()
     jefe = models.ForeignKey(Jefes, on_delete=models.CASCADE)
     categoria = models.ForeignKey(Categorias, on_delete=models.CASCADE)
-    #razas = models.ForeignKey(Razas, on_delete=models.CASCADE)
-
-    #ventas
+    raza = models.ForeignKey(Razas, on_delete=models.CASCADE)
     #foto
 
     def __str__(self):

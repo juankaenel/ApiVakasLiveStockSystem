@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'apps.bovinos',
     'apps.compras',
     'apps.categorias',
-    #'apps.razas',
+    'apps.razas',
     # CORS
     'corsheaders',
 ]
