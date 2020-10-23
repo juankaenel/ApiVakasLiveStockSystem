@@ -1,21 +1,25 @@
+"""Serializer Usuario"""
+
+#Django
+from django.contrib.auth import authenticate
+
+#Django Rest Framework
 from rest_framework import serializers
-from .models import Usuario
 
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(max_length=60,min_length=6,write_only=True)
+class UsuarioLoginSerializer(serializers.Serializer):
+    """Usario login serializer
 
-    class Meta:
-        model = Usuario
-        fields = ['email','username','password']
+    Maneja la data request de login
+    """
 
-    def validate(self, attrs):
-        email = attrs.get('email','')
-        username = attrs.get('username','')
+    email = serializers.EmailField()
+    password = serializers.CharField(min_length=8, max_length=64)
 
-        if not username.isalnum():
-            raise serializers.ValidationError('El nombre de usuario solo debe contener carácteres alfanuméricos')
+    def validate(self, data):
+        """Verifica credenciales"""
+        usuario = authenticate(username=data['email'],password=data['password'])
+        if not usuario:
+            raise serializers.ValidationError('Credenciales inválidas')
+        return data
 
-        return attrs
 
-    def create(self, validated_data):
-        return Usuario.objects.create_user(**validated_data)
