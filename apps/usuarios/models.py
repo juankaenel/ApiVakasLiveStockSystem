@@ -34,6 +34,8 @@ class UsuarioManager(BaseUserManager):
         return usuario
 
 
+#TIPO_USUARIO = (1,'Jefe',2,'Empleado')
+
 class Usuario(Timestamps,AbstractBaseUser):
     # user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='user')
     username = models.CharField('Nombre de usuario', max_length=255, unique=True, db_index=True)
@@ -41,16 +43,16 @@ class Usuario(Timestamps,AbstractBaseUser):
     apellidos = models.CharField('Apellidos', max_length=255, db_index=True)
     email = models.EmailField('Email', max_length=255, unique=True, db_index=True)
     dni = models.IntegerField('DNI', blank=True, null=True, unique=True)
-    tipo = models.IntegerField('Tipo', blank=True, null=True)
+    tipo = models.IntegerField('Tipo',blank=True, null=True)
     telefono = models.CharField('Teléfono', max_length=50, null=True, blank=True)
     usuario_activo = models.BooleanField(default=True)
     usuario_administrador = models.BooleanField(default=False)
 
     objects = UsuarioManager()
 
+    EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'nombres', 'apellidos']
-
+    REQUIRED_FIELDS = ['email']
 
     def __str__(self):
         """Return an username"""
@@ -77,3 +79,4 @@ class Usuario(Timestamps,AbstractBaseUser):
         verbose_name_plural = 'Usuarios'
         db_table = 'USUARIO'  # nombre de la tabla
         ordering = ['id']  # ordena por id de forma ascendente
+
