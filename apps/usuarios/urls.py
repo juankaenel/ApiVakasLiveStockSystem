@@ -2,8 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('usuarios/login',views.UsuarioLoginAPIView.as_view(),name='login'),
-    path('usuarios/signup',views.UsuarioSignUpAPIView.as_view(),name='signup')
+    #path('usuarios/login',views.LoginUsuario,name='login'),
+    path('usuarios/registro',views.RegistroUsuario.as_view(),name='registro'),
+    path('usuarios/verificar-email',views.RegistroUsuario.as_view(),name='verificar-email')
 ]
 
 #Para probar las vistas podemos usar la libreria httpie -> pip install httpie

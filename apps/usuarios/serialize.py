@@ -19,7 +19,7 @@ class UsuarioModelSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = '__all__'
 
-class UsuarioSignUpSerializer(serializers.Serializer):
+class RegistroSerializer(serializers.Serializer):
     """Usuario sign up serializer
 
     Maneja los datos de validación y creación de usuarios
@@ -33,21 +33,21 @@ class UsuarioSignUpSerializer(serializers.Serializer):
         validators=[UniqueValidator(queryset=Usuario.objects.all())]
     )
     password = serializers.CharField(min_length=8, max_length=64)
-    password_confirmation = serializers.CharField(min_length=8, max_length=64)
+    #password_confirmation = serializers.CharField(min_length=8, max_length=64)
     nombres = serializers.CharField(min_length=2, max_length=30)
     apellidos = serializers.CharField(min_length=2, max_length=30)
 
-    def validate(self, data):
-        """Verifica que haya coincidencia de passwords"""
-        passwd = data.get('password')
-        passwd_conf = data.get('password_confirmation')
-        if passwd != passwd_conf:
-            raise serializers.ValidationError("Las contraseñas no coinciden")
-        #password_validation.validate_password(passwd)
-        return data
+    #def validate(self, data):
+    #    """Verifica que haya coincidencia de passwords"""
+    #    passwd = data.get('password')
+    #    passwd_conf = data.get('password_confirmation')
+    #    if passwd != passwd_conf:
+    #        raise serializers.ValidationError("Las contraseñas no coinciden")
+    #    #password_validation.validate_password(passwd)
+    #    return data
 
     def create(self, data):
-        data.pop('password_confirmation') #eliminamos el password confirmation
+        #data.pop('password_confirmation') #eliminamos el password confirmation
         usuario = Usuario.objects.create(**data)
         return usuario
 
@@ -69,14 +69,19 @@ class UsuarioSignUpSerializer(serializers.Serializer):
 #           raise serializers.ValidationError('Credenciales inválidas')
 #       return data
 
-class UsuarioLoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
-    def validate(self, data):
-        usuario = authenticate(**data)
-        print(usuario)
 
-        if usuario and usuario.usuario_activo:
-            return usuario
-        raise serializers.ValidationError("Credenciales incorrectas")
+#class RegistroSerializer(serializers.Serializer):
+#    username = serializers.CharField()
+#    password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+#
+#    def validate(self, data):
+#        email =data.get('email','')
+#        username =data.get('username','')
+#
+#        if not username.isalnum():
+#            raise serializers.ValidationError('El nombre de usuario debe contener caracteres alfanuméricos')
+#        return data
+#
+#    def create(self, validated_data):
+#        return Usuario.objects.create_user(**validated_data)

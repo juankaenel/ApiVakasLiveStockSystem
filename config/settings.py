@@ -17,6 +17,8 @@ import config.db as db
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -111,7 +113,11 @@ DATABASES = db.POSTGRESQL
 #}
 
 REST_FRAMEWORK = {
-    'NON_FIELD_ERRORS_KEY':'error' #para que cuando se presenten errores, la respuesta json sea igual a ->  error:{....{
+    'NON_FIELD_ERRORS_KEY':'error', #para que cuando se presenten errores, la respuesta json sea igual a ->  error:{....{
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    #'rest_framework.authentication.TokenAuthentication',
+]
 }
 
 # Password validation
@@ -151,3 +157,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#configuración de autenticación a través de email
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT =587
+EMAIL_HOST_USER = EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
