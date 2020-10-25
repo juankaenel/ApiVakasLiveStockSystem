@@ -61,6 +61,9 @@ INSTALLED_APPS = [
     'apps.razas',
     # CORS
     'corsheaders',
+    #Swagger
+    #'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

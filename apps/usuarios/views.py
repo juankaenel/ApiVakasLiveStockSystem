@@ -1,6 +1,7 @@
 """Usuarios views"""
 
 # Django Rest Framework
+import jwt
 from django.urls import reverse
 from rest_framework.response import Response
 from rest_framework import status, generics
@@ -13,6 +14,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from apps.usuarios.models import Usuario
 from apps.usuarios.serialize import UsuarioModelSerializer, RegistroSerializer
 from apps.usuarios.utils import Utils
+from config import settings
 
 
 class RegistroUsuario(generics.GenericAPIView):
@@ -39,5 +41,16 @@ class RegistroUsuario(generics.GenericAPIView):
         return Response(usuario_data, status=status.HTTP_201_CREATED)
 
 class VerificarEmail(generics.GenericAPIView):
-    def get(self):
-        pass
+    def get(self,request):
+        token = request.GET.get('token')
+        try:
+            payload = jwt.decode(token,settings.SECRET_KEY)
+            usuario = Usuario.objects.get(id=payload['usuario_id'])
+            if not usuario.usuario_verificado: #controlo si ya está verificado el usr
+                usuario.usuario_verificado = True  # verifico el usuario
+                usuario.save()
+            return Response({'email':'Activado satisfactoriamente'}, status=status.HTTP_200_OK)
+        except jwt.ExpiredSignatureError as identifier:
+            return Response({'error':'Activación expirada'}, status=status.HTTP_400_BAD_REQUEST)
+        except jwt.exceptions.DecodeError as identifier:
+            return Response({'error': 'Token inválido'}, status=status.HTTP_400_BAD_REQUEST)

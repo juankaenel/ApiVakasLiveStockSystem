@@ -54,7 +54,7 @@ class Usuario(Timestamps,AbstractBaseUser):
     telefono = models.CharField('Teléfono', max_length=50, null=True, blank=True)
     usuario_activo = models.BooleanField(default=True)
     usuario_administrador = models.BooleanField(default=False)
-
+    usuario_verificado = models.BooleanField(default=False)
     objects = UsuarioManager()
 
     EMAIL_FIELD = 'email'
