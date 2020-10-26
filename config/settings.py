@@ -134,7 +134,8 @@ REST_FRAMEWORK = {
     'rest_framework.authentication.SessionAuthentication', #con esto me permite preveer las credenciales  a la ruta /v1/rest-auth/user/
     ],
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAdminUser'
+      #  'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.IsAuthenticated',
    ),
 }
 

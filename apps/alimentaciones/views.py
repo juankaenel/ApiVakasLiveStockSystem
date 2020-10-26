@@ -1,50 +1,49 @@
-from rest_framework import viewsets
+#django rest
+from django.http import Http404
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-
+from rest_framework.views import APIView
+#apps
 from .models import Alimentaciones
 from .serialize import AlimentacionSerializer
 
-
-@api_view(['GET'])
-def apiOverView(request):
-    api_urls = {
-        'index' : '/alimentaciones', #Get
-        'store' : '/alimentaciones', #Post
-        'show' : '/alimentaciones/<str:pk>', #Get
-        'update': '/alimentaciones/<str:pk>', #Put,
-        'destroy': '/alimentaciones/<str:pk>', #Delete
-    }
-    return Response(api_urls)
-
 # END POINTS
-@api_view(['GET','POST'])
-def alimentacion_is(request): #is -> index, store
-   if request.method == 'GET':
-       alimentacion = Alimentaciones.objects.all()
-       serializer = AlimentacionSerializer(alimentacion,many=True)
-
-       return Response(serializer.data)
-   elif request.method == 'POST':
-       serializer = AlimentacionSerializer(data=request.data)
-       if serializer.is_valid():
-           serializer.save()
-
-       return Response(serializer.data)
-
-@api_view(['GET','DELETE','PUT'])
-def alimentacion_sud(request,pk): #sud -> show, update, delete
-   if request.method == 'GET':
-       alimentacion = Alimentaciones.objects.get(id=pk)
-       serializer = AlimentacionSerializer(alimentacion, many=False)
-       return Response(serializer.data)
-   elif request.method == 'PUT':
-       alimentacion = Alimentaciones.objects.get(id=pk)
-       serializer = AlimentacionSerializer(instance=alimentacion,data=request.data)
-       if serializer.is_valid():
-           serializer.save()
-       return Response(serializer.data)
-   elif request.method == 'DELETE':
-       alimentacion = Alimentaciones.objects.get(id=pk)
-       alimentacion.delete()
-       return Response('Alimentación borrado con éxito!')
+class AlimentacionesList(APIView):
+    """
+    Lista todas los alimentaciones, o crea una nueva.
+    """
+    def get(self, request, format=None):
+        alimentaciones = Alimentaciones.objects.all()
+        serializer = AlimentacionSerializer(alimentaciones, many=True)
+        return Response(serializer.data)
+    def post(self, request, format=None):
+        serializer = AlimentacionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class AlimentacionesDetail(APIView):
+    """
+    Recupera, actualiza o elimina una alimentación.
+    """
+    def get_object(self, pk):
+        try:
+            return Alimentaciones.objects.get(pk=pk)
+        except Alimentaciones.DoesNotExist:
+            raise Http404
+    def get(self, request, pk, format=None):
+        alimentacion = self.get_object(pk)
+        serializer = AlimentacionSerializer(alimentacion)
+        return Response(serializer.data)
+    def put(self, request, pk, format=None):
+        alimentacion = self.get_object(pk)
+        serializer = AlimentacionSerializer(alimentacion, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, pk, format=None):
+        alimentacion = self.get_object(pk)
+        alimentacion.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
