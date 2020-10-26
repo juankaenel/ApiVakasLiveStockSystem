@@ -41,9 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     #rest
     'rest_framework',
     'rest_framework.authtoken',
+    'allauth', # new
+    'allauth.account', # new
+    'allauth.socialaccount', # new
+    'rest_auth',
+    'rest_auth.registration', # new
     #apps
     'apps.alimentaciones',
     'apps.alimentos',
@@ -65,6 +71,11 @@ INSTALLED_APPS = [
     #'django.contrib.staticfiles',  # required for serving swagger ui's css/js files
     'drf_yasg',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True #requiere el email para el registro de un usr
+#ACCOUNT_EMAIL_VERIFICATION = True #requiere verificar el email para loguearse
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,10 +129,16 @@ DATABASES = db.POSTGRESQL
 REST_FRAMEWORK = {
     'NON_FIELD_ERRORS_KEY':'error', #para que cuando se presenten errores, la respuesta json sea igual a ->  error:{....{
     'DEFAULT_AUTHENTICATION_CLASSES': [
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
-    #'rest_framework.authentication.TokenAuthentication',
-]
+#    'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'rest_framework.authentication.TokenAuthentication',
+    'rest_framework.authentication.SessionAuthentication', #con esto me permite preveer las credenciales  a la ruta /v1/rest-auth/user/
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAdminUser'
+   ),
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
